@@ -51,7 +51,12 @@ export const update = (action) => {
         if (typeof action !== 'function') {
             throw new Error ("action is requred to be function")
         }
-    }
+
+        const prev = Object.freeze({ ... states[0] });
+        const next = Object.freeze({ ... action(prev) });
+
+        states.unshift(next);
+};
 
 export const subscribe = () => {}
 
