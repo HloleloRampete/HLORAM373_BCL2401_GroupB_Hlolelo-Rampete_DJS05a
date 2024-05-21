@@ -44,24 +44,14 @@ const initial = {
     }
 };
 
-const createStore = (initial) => {
-    /**
-     *  @type {Array<State>}
-     */
-    const states = [initial]
 
-    const update = (action) => {
+const states = [initial];
+
+export const update = (action) => {
         if (typeof action !== 'function') {
             throw new Error ("action is requred to be function")
         }
     }
 
-    const subscribe = () => {
+export const subscribe = () => {}
 
-    }
-
-    return {
-        update,
-        subscribe,
-    }
-}
