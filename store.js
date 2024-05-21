@@ -11,6 +11,12 @@
  *  @prop {Item} humidity
  */
 
+/**
+ * @callback Notify
+ * @param {State} next
+ * @param {State} prev
+ */
+
 /** 
 * @callback Action
 * @param {State}
@@ -24,6 +30,7 @@
 
 /**
  * @callback Subscribe
+ * @param {Notify} notify
  */
 
 /** 
@@ -44,8 +51,15 @@ const initial = {
     }
 };
 
-
+/**
+ * @type {Array<State>}
+ */
 const states = [initial];
+
+/**
+ * @type {Array<Notify>}
+ */
+const notifiers = [];
 
 export const update = (action) => {
         if (typeof action !== 'function') {
@@ -58,5 +72,17 @@ export const update = (action) => {
         states.unshift(next);
 };
 
-export const subscribe = () => {}
+/**
+ * @param {Notify} notify
+ * @returns
+ */
+export const subscribe = (notify) => {
+    notifiers.push(notify);
+
+    const unsubscribe = () => {
+
+    }
+
+    return unsubscribe;
+}
 
