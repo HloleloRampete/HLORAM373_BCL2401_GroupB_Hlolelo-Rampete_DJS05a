@@ -1,7 +1,9 @@
-import { Action, subscribe, update } from "./store.js";
+import { Action, subscribe, update, Notify } from "./store.js";
 // alert("Hello");
 const handler = (prev, next) => console.log(prev, next)
 const unsubscribe = subscribe(handler)
+
+const htmlHandler
 
 /**
  * @type {Action}
@@ -11,7 +13,7 @@ const customAction = (state) => {
         ... state,
         wind: {
             ... state.wind, // destructoring
-            value: state.value + 19,
+            value: state.wind.value + 19,
         },
     };
 };
