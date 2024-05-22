@@ -1,75 +1,87 @@
 // Creating the shape of the store
 /**
- *  @typeof {object} Item
+ *  @type {object} Item
  *  @prop {number} value
  */
 
 /**
- *  @typeof {object} State
+ *  @type {object} State
  *  @prop {Item} wind
- *  @prop {Item} temperature 
+ *  @prop {Item} temperature
  *  @prop {Item} humidity
  */
 
 /**
  * @callback Notify
- * @param {State} next
- * @param {State} prev
+ * @param {states} next
+ * @param {states} prev
  */
 
-/** 
-* @callback Action
-* @param {State}
-* @returns {State}
-*/
+/**
+ * @callback Action
+ * @param {states}
+ * @returns {states}
+ */
 
-/** 
-* @callback Update
-* @param {Action}
-*/
+export const Action = {}
+
+/**
+ * @callback Update
+ * @param {Action}
+ */
 
 /**
  * @callback Subscribe
  * @param {Notify} notify
  */
 
-/** 
-* @typeof {object} store
-* @prop {Update} update
-* @prop {Subscribe} subscribe
-*/
+/**
+ * @callback EmptyFn
+ */
+
+/**
+ 
+ * @prop {Update} update
+ * @prop {Subscribe} subscribe
+ */
 
 const initial = {
-    wind: {
-        value: 1,
-    },
-    temperature: {
-        value: 1,
-    },
-    humidity: {
-        value: 1,
-    }
+  wind: {
+    value: 1,
+  },
+  temperature: {
+    value: 1,
+  },
+  humidity: {
+    value: 1,
+  },
 };
 
 /**
- * @type {Array<State>}
+ * @type {Array<states>}
  */
 const states = [initial];
 
 /**
  * @type {Array<Notify>}
  */
-const notifiers = [];
+let notifiers = [];
 
+/**
+ * @param {Action} action 
+ */
 export const update = (action) => {
-        if (typeof action !== 'function') {
-            throw new Error ("action is requred to be function")
-        }
+  if (typeof action !== "function") {
+    throw new Error("action is requred to be function");
+  }
 
-        const prev = Object.freeze({ ... states[0] });
-        const next = Object.freeze({ ... action(prev) });
+  const prev = Object.freeze({ ...states[0] });
+  const next = Object.freeze({ ...action(prev) });
 
-        states.unshift(next);
+  const handler = (notify) => notify(prev, next);
+  notifiers.forEach(handler); // replacing a loop logic
+
+  states.unshift(next);
 };
 
 /**
@@ -77,12 +89,13 @@ export const update = (action) => {
  * @returns
  */
 export const subscribe = (notify) => {
-    notifiers.push(notify);
+  notifiers.push(notify);
 
-    const unsubscribe = () => {
+  const unsubscribe = () => {
+    const handler = (current) => current !== notify;
+    const result = notifiers.filter(handler); // if conditon is true, filter() will not run.
+    notifiers = result;
+  };
 
-    }
-
-    return unsubscribe;
-}
-
+  return unsubscribe;
+};
