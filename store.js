@@ -23,7 +23,8 @@
  * @returns {states}
  */
 
-export const Action = {}
+export const Action = {};
+export const Notify = {};
 
 /**
  * @callback Update
@@ -40,7 +41,7 @@ export const Action = {}
  */
 
 /**
- 
+ * @typedef {object} Store
  * @prop {Update} update
  * @prop {Subscribe} subscribe
  */
@@ -58,7 +59,7 @@ const initial = {
 };
 
 /**
- * @type {Array<states>}
+ * @type {Array<State>}
  */
 const states = [initial];
 
@@ -68,7 +69,7 @@ const states = [initial];
 let notifiers = [];
 
 /**
- * @param {Action} action 
+ * @param {Action} action
  */
 export const update = (action) => {
   if (typeof action !== "function") {
