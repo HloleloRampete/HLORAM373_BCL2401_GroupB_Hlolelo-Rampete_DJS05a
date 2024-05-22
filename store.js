@@ -78,7 +78,7 @@ export const update = (action) => {
   const prev = Object.freeze({ ...states[0] });
   const next = Object.freeze({ ...action(prev) });
 
-  const handler = (notify) => notify(prev, next);
+  const handler = (notify) => notify(next, prev);
   notifiers.forEach(handler); // replacing a loop logic
 
   states.unshift(next);
